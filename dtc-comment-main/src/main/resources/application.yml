@@ -10,3 +10,17 @@ spring:
 # mybatis信息配置
 mybatis:
   mapper-locations: classpath:mapper/*.xml
+
+# 日志信息配置
+logging:
+  level:
+    com.datoucai: trace
+  file:
+    name: application.log
+    path: /Users/yebing/IdeaProjects/logs
+
+
+
+
+  
+
