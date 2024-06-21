@@ -1,2 +1,7 @@
 .idea/
-target/
+**/target/
+*.log
+
+# Maven、Gradle 等构建工具的输出目录
+**/target/
+**/build/
