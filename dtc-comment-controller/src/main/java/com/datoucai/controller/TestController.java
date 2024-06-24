@@ -20,7 +20,7 @@ public class TestController {
     private IUserService userService;
     @RequestMapping(value = "/test",method = RequestMethod.GET)
     public String test(){
-        int userTotal = userService.countUserTotal();
+        int userTotal = userService.countUser();
 //        trace<  debug < info < warn < error
         log.trace("trace级别日志");
         log.debug("debug级别日志");

@@ -13,7 +13,7 @@ public class UserService implements IUserService{
     @Autowired
     private UserMapper userMapper;
     @Override
-    public int countUserTotal() {
-        return userMapper.countUserTotal();
+    public int countUser() {
+        return userMapper.countUser();
     }
 }
