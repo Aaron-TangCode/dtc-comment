@@ -21,6 +21,8 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <spring-boot.version>2.4.2</spring-boot.version>
         <mybatis.version>2.2.1</mybatis.version>
+        <lombok.version>1.18.18</lombok.version>
+        <mysql.version>8.0.25</mysql.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -40,12 +42,12 @@
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
-                <version>1.18.18</version>
+                <version>${lombok.version}</version>
             </dependency>
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
-                <version>8.0.25</version>
+                <version>${mysql.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
