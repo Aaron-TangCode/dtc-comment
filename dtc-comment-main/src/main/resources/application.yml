@@ -5,9 +5,9 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/website
+    url: jdbc:mysql://203.91.78.89:3306/dtc_website
     username: root
-    password: root
+    password: b0d569a5cc1f9717
 
 # mybatis信息配置
 mybatis:

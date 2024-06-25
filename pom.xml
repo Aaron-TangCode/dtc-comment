@@ -23,6 +23,7 @@
         <mybatis.version>2.2.1</mybatis.version>
         <lombok.version>1.18.18</lombok.version>
         <mysql.version>8.0.25</mysql.version>
+        <fastjson.version>1.2.83</fastjson.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -49,6 +50,12 @@
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 <!--maven插件-->

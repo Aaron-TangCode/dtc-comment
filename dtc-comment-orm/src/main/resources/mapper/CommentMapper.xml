@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.datoucai.mapper.CommentMapper">
+    <insert id="insertComment">
+        insert into tb_comment(
+                               user_id,
+                               module,
+                               resource_id,
+                               status,
+                               content,
+                               star_num,
+                               score,
+                               create_time,
+                               update_time,
+                               is_delete
+                               ) values(
+                                #{userId},
+                                #{module},
+                                #{resourceId},
+                                #{status},
+                                #{content},
+                                #{starNum},
+                                #{score},
+                                #{createTime},
+                                #{updateTime},
+                                #{isDelete}
+                                               )
+    </insert>
+
+    <delete id="deleteCommentById" parameterType="java.lang.Long">
+        delete from tb_comment where id=#{id}
+    </delete>
+
+    <select id="queryCommentByParam" resultType="com.datoucai.entity.CommentEntity">
+        select * from tb_comment
+    </select>
+    <select id="countCommentByParam" resultType="java.lang.Integer">
+        select count(*) from tb_comment
+    </select>
+</mapper>
