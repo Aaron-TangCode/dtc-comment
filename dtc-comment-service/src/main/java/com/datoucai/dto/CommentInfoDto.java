@@ -1,12 +1,14 @@
-package com.datoucai.entity;
-
+package com.datoucai.dto;
 
 import lombok.Data;
 
 import java.util.Date;
 
+/**
+ * 评论的dto
+ */
 @Data
-public class CommentEntity {
+public class CommentInfoDto {
 
     private Long id;
 
@@ -27,6 +29,6 @@ public class CommentEntity {
     private Integer isDelete;
 
     private Date createTime;
-    private Date updateTime;
 
+    private Date updateTime;
 }

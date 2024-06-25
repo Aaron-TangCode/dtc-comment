@@ -27,7 +27,7 @@ public class AddCommentRequestParam {
      */
     private String resourceId;
     /**
-     * 评论
+     * 评分
      */
     private Integer score;
 }

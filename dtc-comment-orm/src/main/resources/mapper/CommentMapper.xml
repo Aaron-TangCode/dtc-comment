@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.datoucai.mapper.CommentMapper">
+
+    <insert id="addComment" parameterType="com.datoucai.entity.CommentEntity">
+        insert into tb_comment(
+            module,
+            resource_id,
+            user_id,
+            content,
+            status,
+            is_delete,
+            create_time,
+            update_time,
+            score,
+            star_num
+        )values(
+            #{module},
+        #{resourceId},
+        #{userId},
+        #{content},
+        #{status},
+        #{isDelete},
+        #{createTime},
+        #{updateTime},
+        #{score},
+        #{starNum}
+        )
+    </insert>
+
+</mapper>
