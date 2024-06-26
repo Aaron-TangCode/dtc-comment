@@ -1,5 +1,6 @@
 package com.datoucai.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.datoucai.dto.CommentDetailInfoDto;
 import com.datoucai.dto.CommentInfoDto;
 import com.datoucai.dto.CommentResultInfoDto;
@@ -10,6 +11,7 @@ import com.datoucai.param.CommentResultParam;
 import com.datoucai.param.DelCommentRequestParam;
 import com.datoucai.param.QueryCommentRequestParam;
 import com.datoucai.service.ICommentService;
+import com.datoucai.utils.BaseResultUtils;
 import com.datoucai.utils.DateUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,19 @@ public class CommentController {
      */
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     public BaseResult<Boolean> addComment(@RequestBody AddCommentRequestParam param){
+        try {
+            log.info("增加评论-controller层-addComment-入参:{}", JSON.toJSONString(param));
+            CommentInfoDto dto = buildCommentInfoDto(param);
+            int count = commentService.addComment(dto);
+            log.info("增加评论-controller层-addComment-出参:{}", count);
+            return BaseResultUtils.generateSuccess(count>0);
+        }catch (Exception e){
+            log.error("增加评论-controller层-addComment-异常:", e);
+            return BaseResultUtils.generateFail("增加评论异常");
+        }
+    }
+
+    private static CommentInfoDto buildCommentInfoDto(AddCommentRequestParam param) {
         CommentInfoDto dto = new CommentInfoDto();
         dto.setUserId(Long.valueOf(param.getUserId()));
         dto.setModule(param.getModule());
@@ -49,9 +64,9 @@ public class CommentController {
         dto.setIsDelete(0);
         dto.setCreateTime(new Date());
         dto.setUpdateTime(new Date());
-        int count = commentService.addComment(dto);
-        return new BaseResult(0,true,"添加成功",count>0);
+        return dto;
     }
+
     /**
      * 删除评论
      * @param param
@@ -59,15 +74,28 @@ public class CommentController {
      */
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
     public BaseResult<Boolean> deleteComment(@RequestBody DelCommentRequestParam param){
+        try {
+            log.info("删除评论-controller层-deleteComment-入参:{}", JSON.toJSONString(param));
+            CommentInfoDto dto = getCommentInfoDto(param);
+            int count = commentService.deleteComment(dto);
+            log.info("删除评论-controller层-deleteComment-出参:{}", count);
+            return BaseResultUtils.generateSuccess(count>0);
+        }catch (Exception e){
+            log.error("删除评论-controller层-deleteComment-异常:", e);
+            return BaseResultUtils.generateFail("删除评论异常");
+        }
+    }
+
+    private static CommentInfoDto getCommentInfoDto(DelCommentRequestParam param) {
         CommentInfoDto dto = new CommentInfoDto();
         dto.setId(Long.valueOf(param.getCommentId()));
         dto.setUserId(Long.valueOf(param.getUserId()));
         dto.setModule(param.getModule());
         dto.setResourceId(Long.valueOf(param.getResourceId()));
         dto.setUpdateTime(new Date());
-        int count = commentService.deleteComment(dto);
-        return new BaseResult(0,true,"删除成功",count>0);
+        return dto;
     }
+
     /**
      * 查询评论
      * @param param
@@ -75,14 +103,17 @@ public class CommentController {
      */
     @RequestMapping(value = "/query",method = RequestMethod.GET)
     public BaseResult<CommentResultParam> queryComment(QueryCommentRequestParam param){
-        log.info("查询评论-queryComment-入参:{}",param);
-        CommentInfoDto commentInfoDto = buildCommentInfoDto(param);
-        CommentResultInfoDto resultInfoDto = commentService.queryCommentByParam(commentInfoDto);
-        CommentResultParam resultParam = buildCommentResultParam(resultInfoDto);
-
-        log.info("查询评论-queryComment-出参:{}",resultParam);
-
-        return new BaseResult<>(0,true,"查询成功",resultParam);
+        try {
+            log.info("查询评论-controller层-queryComment-入参:{}", JSON.toJSONString(param));
+            CommentInfoDto commentInfoDto = buildCommentInfoDto(param);
+            CommentResultInfoDto resultInfoDto = commentService.queryCommentByParam(commentInfoDto);
+            CommentResultParam resultParam = buildCommentResultParam(resultInfoDto);
+            log.info("查询评论-controller层-queryComment-出参:{}", JSON.toJSONString(resultParam));
+            return BaseResultUtils.generateSuccess(resultParam);
+        }catch (Exception e){
+            log.error("查询评论-controller层-queryComment-异常:", e);
+            return BaseResultUtils.generateFail("查询评论异常");
+        }
     }
 
     private CommentResultParam buildCommentResultParam(CommentResultInfoDto resultInfoDto) {
