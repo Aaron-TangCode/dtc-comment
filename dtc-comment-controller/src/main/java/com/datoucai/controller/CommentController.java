@@ -49,8 +49,15 @@ public class CommentController {
      * @return
      */
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
-    public BaseResult<Boolean> deleteComment(DelCommentRequestParam param){
-        return null;
+    public BaseResult<Boolean> deleteComment(@RequestBody DelCommentRequestParam param){
+        CommentInfoDto dto = new CommentInfoDto();
+        dto.setId(Long.valueOf(param.getCommentId()));
+        dto.setUserId(Long.valueOf(param.getUserId()));
+        dto.setModule(param.getModule());
+        dto.setResourceId(Long.valueOf(param.getResourceId()));
+        dto.setUpdateTime(new Date());
+        int count = commentService.deleteComment(dto);
+        return new BaseResult(0,true,"删除成功",count>0);
     }
     /**
      * 查询评论

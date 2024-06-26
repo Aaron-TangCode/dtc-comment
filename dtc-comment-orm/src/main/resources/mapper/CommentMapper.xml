@@ -28,4 +28,7 @@
         )
     </insert>
 
+    <delete id="deleteCommentById" parameterType="java.lang.Long">
+        delete from tb_comment where id=#{id}
+    </delete>
 </mapper>

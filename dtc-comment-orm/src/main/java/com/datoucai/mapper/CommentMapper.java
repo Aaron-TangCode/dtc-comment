@@ -12,4 +12,10 @@ public interface CommentMapper {
      * @return
      */
     int addComment(CommentEntity entity);
+
+    /**
+     * 删除评论by id
+     * @return
+     */
+    int deleteCommentById(Long id);
 }
