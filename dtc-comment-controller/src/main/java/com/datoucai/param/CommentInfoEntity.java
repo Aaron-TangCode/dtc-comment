@@ -64,5 +64,5 @@ public class CommentInfoEntity {
     /**
      * 子回复列表
      */
-    private List<ReplyInfoEntity> list;
+    private List<ReplyInfoEntity> replyList;
 }

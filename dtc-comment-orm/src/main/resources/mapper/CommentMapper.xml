@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.datoucai.mapper.CommentMapper">
-
+    <resultMap id="CommentResultMap" type="com.datoucai.entity.CommentEntity">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="module" column="module"/>
+        <result property="resourceId" column="resource_id"/>
+        <result property="content" column="content"/>
+        <result property="status" column="status"/>
+        <result property="score" column="score"/>
+        <result property="starNum" column="star_num"/>
+        <result property="isDelete" column="is_delete"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
     <insert id="addComment" parameterType="com.datoucai.entity.CommentEntity">
         insert into tb_comment(
             module,
@@ -31,4 +43,40 @@
     <delete id="deleteCommentById" parameterType="java.lang.Long">
         delete from tb_comment where id=#{id}
     </delete>
+
+    <select id="queryCommentByParam" resultMap="CommentResultMap" parameterType="com.datoucai.entity.CommentParam">
+        select * from tb_comment
+        <where>
+            <if test="module!=null">
+                and module=#{module}
+            </if>
+            <if test="resourceId!=null">
+                and resource_id=#{resourceId}
+            </if>
+            <if test="score!=null">
+                and score=#{score}
+            </if>
+        </where>
+        <if test="orderBy!=null and orderBy!=''">
+            order by ${orderBy}
+            <if test="orderDirection!=null and orderDirection!=''">
+                ${orderDirection}
+            </if>
+        </if>
+    </select>
+
+    <select id="countCommentByParam" resultType="java.lang.Integer" parameterType="com.datoucai.entity.CommentParam">
+        select count(*) from tb_comment
+        <where>
+            <if test="module!=null">
+                and module=#{module}
+            </if>
+            <if test="resourceId!=null">
+                and resource_id=#{resourceId}
+            </if>
+            <if test="score!=null">
+                and score=#{score}
+            </if>
+        </where>
+    </select>
 </mapper>
