@@ -8,6 +8,7 @@ import com.datoucai.service.dto.CommentInfoDto;
 import com.datoucai.service.dto.CommentInfoResultDto;
 import com.datoucai.service.dto.QueryCommentInfoDto;
 import com.datoucai.utils.BaseResultUtils;
+import com.datoucai.utils.DateUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -127,7 +128,7 @@ public class CommentController {
             target.setModule(source.getModule());
             target.setResourceId(source.getResourceId()+"");
             target.setContent(source.getContent());
-            target.setContentTime(null);
+            target.setContentTime(DateUtils.dateToStr(source.getCreateTime(),DateUtils.YYYY_MM_DD_HH_MM_SS));
             target.setStarNum(source.getStarNum());
             target.setAvatar(null);
             target.setUsername(null);
