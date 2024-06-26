@@ -14,6 +14,8 @@ mybatis:
   mapper-locations: classpath:mapper/*.xml
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#    数据库字段和实体类字段因为驼峰命名不一致问题解决方案
+    map-underscore-to-camel-case: true
 # 日志信息配置
 logging:
   level:
