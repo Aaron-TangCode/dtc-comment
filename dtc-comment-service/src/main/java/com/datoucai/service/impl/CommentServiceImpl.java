@@ -10,10 +10,12 @@ import com.datoucai.service.IUserService;
 import com.datoucai.service.dto.CommentDetailDto;
 import com.datoucai.service.dto.CommentInfoDto;
 import com.datoucai.service.dto.CommentInfoResultDto;
+import com.datoucai.service.dto.QueryCommentInfoDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
@@ -60,19 +62,19 @@ public class CommentServiceImpl implements ICommentService {
     }
 
     @Override
-    public CommentInfoResultDto queryCommentByParam(CommentInfoDto dto) {
+    public CommentInfoResultDto queryCommentByParam(QueryCommentInfoDto dto) {
         try {
             log.info("查询评论-queryCommentByParam-入参:{}", JSON.toJSONString(dto));
-            CommentParam target = new CommentParam();
-            BeanUtils.copyProperties(dto,target);
-
+            checkParam(dto);
             CommentInfoResultDto resultDto = new CommentInfoResultDto();
-            int total = commentMapper.countCommentByParam(target);
+            CommentParam queryParam = buildParam(dto);
+            log.info("查询评论-查数据库条件-入参:{}", JSON.toJSONString(queryParam));
+            int total = commentMapper.countCommentByParam(queryParam);
             resultDto.setTotal(Long.valueOf(total+""));
             if(total<=0){
                 return resultDto;
             }
-            List<CommentEntity> list = commentMapper.queryCommentByParam(target);
+            List<CommentEntity> list = commentMapper.queryCommentByParam(queryParam);
             log.info("查询评论-queryCommentByParam-数据库-出参:{}", JSON.toJSONString(list));
             if(CollectionUtils.isEmpty(list)){
                 return resultDto;
@@ -83,8 +85,74 @@ public class CommentServiceImpl implements ICommentService {
             return resultDto;
         }catch (Exception e){
             log.error("查询评论-queryCommentByParam-异常:", e);
-            return new CommentInfoResultDto();
+           throw e;
         }
+    }
+
+    /**
+     * 参数校验
+     * @param dto
+     */
+    private void checkParam(QueryCommentInfoDto dto) {
+        Assert.isTrue(dto!=null,"参数不能为空");
+        Assert.isTrue(dto.getModule()!=null,"模块不能为空");
+        Assert.isTrue(dto.getResourceId()!=null,"资源Id不能为空");
+        if(dto.getPageNum()==null || dto.getPageSize()==null){
+            dto.setPageNum(1);
+            dto.setPageSize(10);
+        }
+    }
+
+    /**
+     * 构建查询条件-查询评论
+     * @param dto
+     * @return
+     */
+    private CommentParam buildParam(QueryCommentInfoDto dto) {
+        CommentParam commentParam = new CommentParam();
+        if(dto==null){
+            return commentParam;
+        }
+        commentParam.setModule(dto.getModule());
+        commentParam.setResourceId(Long.valueOf(dto.getResourceId()));
+        commentParam.setOffset(buildOffset(dto.getPageNum(),dto.getPageSize()));
+        commentParam.setLimit(dto.getPageSize());
+        commentParam.setIsDelete(0);
+        if(dto.getOrder()==null || dto.getOrder()==1){
+            // 默认最新
+            commentParam.setOrderBy("create_time");
+            commentParam.setOrderDirection("desc");
+        }else{
+            /**
+             * 排序方式
+             * 1：最新
+             * 2：最热
+             * 3：最早
+             */
+            if(dto.getOrder()==2){
+                // 最热
+                commentParam.setOrderBy("star_num");
+                commentParam.setOrderDirection("desc");
+            }else{
+                // 最新
+                commentParam.setOrderBy("create_time");
+                commentParam.setOrderDirection("asc");
+            }
+        }
+
+        if(dto.getScore()!=null){
+            commentParam.setScore(dto.getScore());
+        }
+
+        return commentParam;
+    }
+
+    private Integer buildOffset(Integer pageNum, Integer pageSize) {
+        if(pageNum==null || pageSize==null){
+
+        }
+        Integer offset = (pageNum-1) * pageSize;
+        return Math.max(offset,0);
     }
 
     /**

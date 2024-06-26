@@ -3,6 +3,7 @@ package com.datoucai.service;
 import com.datoucai.service.dto.CommentDetailDto;
 import com.datoucai.service.dto.CommentInfoDto;
 import com.datoucai.service.dto.CommentInfoResultDto;
+import com.datoucai.service.dto.QueryCommentInfoDto;
 
 import java.util.List;
 
@@ -27,5 +28,5 @@ public interface ICommentService {
      * 查询评论
      * @return
      */
-    CommentInfoResultDto queryCommentByParam(CommentInfoDto dto);
+    CommentInfoResultDto queryCommentByParam(QueryCommentInfoDto dto);
 }

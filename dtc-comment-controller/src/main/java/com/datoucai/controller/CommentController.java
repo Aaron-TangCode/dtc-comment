@@ -6,8 +6,10 @@ import com.datoucai.service.ICommentService;
 import com.datoucai.service.dto.CommentDetailDto;
 import com.datoucai.service.dto.CommentInfoDto;
 import com.datoucai.service.dto.CommentInfoResultDto;
+import com.datoucai.service.dto.QueryCommentInfoDto;
 import com.datoucai.utils.BaseResultUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -89,10 +91,10 @@ public class CommentController {
     public BaseResult<CommentResultParam> queryComment(QueryCommentRequestParam param){
         try {
             log.info("查询评论-controller层-入参:{}", JSON.toJSONString(param));
-            CommentInfoDto dto = new CommentInfoDto();
+            QueryCommentInfoDto dto = new QueryCommentInfoDto();
+            BeanUtils.copyProperties(param,dto);
             CommentInfoResultDto commentDetailDtos = commentService.queryCommentByParam(dto);
             CommentResultParam result = buildCommentResultParam(commentDetailDtos);
-
             log.info("查询评论-controller层-出参:{}", JSON.toJSONString(param));
             return BaseResultUtils.generateSuccess(result);
         }catch (Exception e){

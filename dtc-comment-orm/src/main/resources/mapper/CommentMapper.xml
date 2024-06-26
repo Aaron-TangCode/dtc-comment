@@ -31,10 +31,48 @@
         delete from tb_comment where id=#{id}
     </delete>
 
-    <select id="queryCommentByParam" resultType="com.datoucai.entity.CommentEntity">
+    <select id="queryCommentByParam" resultType="com.datoucai.entity.CommentEntity" parameterType="com.datoucai.param.CommentParam">
         select * from tb_comment
+        <where>
+            <if test="module!=null">
+                and module=#{module}
+            </if>
+            <if test="resourceId!=null">
+                and resource_id=#{resourceId}
+            </if>
+            <if test="score!=null">
+                and score=#{score}
+            </if>
+            <if test="isDelete!=null">
+                and is_delete=#{isDelete}
+            </if>
+        </where>
+        <if test="orderBy!=null and orderBy!=''">
+            order by ${orderBy}
+            <if test="orderDirection!=null and orderDirection!=''">
+                ${orderDirection}
+            </if>
+        </if>
+        <if test="limit!=null and offset!=null">
+            limit #{offset},#{limit}
+        </if>
+
     </select>
-    <select id="countCommentByParam" resultType="java.lang.Integer">
+    <select id="countCommentByParam" resultType="java.lang.Integer" parameterType="com.datoucai.param.CommentParam">
         select count(*) from tb_comment
+        <where>
+            <if test="module!=null">
+                and module=#{module}
+            </if>
+            <if test="resourceId!=null">
+                and resource_id=#{resourceId}
+            </if>
+            <if test="score!=null">
+                and score=#{score}
+            </if>
+            <if test="isDelete!=null">
+                and is_delete=#{isDelete}
+            </if>
+        </where>
     </select>
 </mapper>

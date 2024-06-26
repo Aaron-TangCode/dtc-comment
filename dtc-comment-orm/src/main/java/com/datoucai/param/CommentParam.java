@@ -32,4 +32,14 @@ public class CommentParam {
 
     private Date updateTime;
 
+    private Integer order;
+
+    private Integer limit;
+
+    private Integer offset;
+
+    private String orderBy;
+
+    private String orderDirection;
+
 }
