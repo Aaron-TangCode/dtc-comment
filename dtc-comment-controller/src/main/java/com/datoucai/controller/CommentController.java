@@ -15,7 +15,9 @@ import com.datoucai.utils.BaseResultUtils;
 import com.datoucai.utils.DateUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -42,14 +44,23 @@ public class CommentController {
     public BaseResult<Boolean> addComment(@RequestBody AddCommentRequestParam param){
         try {
             log.info("增加评论-controller层-addComment-入参:{}", JSON.toJSONString(param));
+            checkParam(param);
             CommentInfoDto dto = buildCommentInfoDto(param);
             int count = commentService.addComment(dto);
             log.info("增加评论-controller层-addComment-出参:{}", count);
             return BaseResultUtils.generateSuccess(count>0);
         }catch (Exception e){
             log.error("增加评论-controller层-addComment-异常:", e);
-            return BaseResultUtils.generateFail("增加评论异常");
+            return BaseResultUtils.generateFail("增加评论异常:"+e.getMessage());
         }
+    }
+
+    private void checkParam(AddCommentRequestParam param) {
+        Assert.isTrue(param!=null,"入参不能为空");
+        Assert.isTrue(!StringUtils.isEmpty(param.getUserId()),"用户id不能为空");
+        Assert.isTrue(!StringUtils.isEmpty(param.getResourceId()),"资源id不能为空");
+        Assert.isTrue(param.getModule()!=null,"模块不能为空");
+        Assert.isTrue(!StringUtils.isEmpty(param.getContent()),"内容不能为空");
     }
 
     private static CommentInfoDto buildCommentInfoDto(AddCommentRequestParam param) {
