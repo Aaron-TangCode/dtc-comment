@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.datoucai.dto.CommentDetailInfoDto;
 import com.datoucai.dto.CommentInfoDto;
 import com.datoucai.dto.CommentResultInfoDto;
+import com.datoucai.enums.CommentDeleteEnum;
 import com.datoucai.param.AddCommentRequestParam;
 import com.datoucai.param.BaseResult;
 import com.datoucai.param.CommentInfoEntity;
@@ -87,14 +88,27 @@ public class CommentController {
     public BaseResult<Boolean> deleteComment(@RequestBody DelCommentRequestParam param){
         try {
             log.info("删除评论-controller层-deleteComment-入参:{}", JSON.toJSONString(param));
+            // 参数校验
+            checkDeleteCommentParam(param);
             CommentInfoDto dto = getCommentInfoDto(param);
             int count = commentService.deleteComment(dto);
             log.info("删除评论-controller层-deleteComment-出参:{}", count);
+            if(count<=0){
+                return BaseResultUtils.generateFail("删除评论失败");
+            }
             return BaseResultUtils.generateSuccess(count>0);
         }catch (Exception e){
             log.error("删除评论-controller层-deleteComment-异常:", e);
             return BaseResultUtils.generateFail("删除评论异常");
         }
+    }
+
+    private void checkDeleteCommentParam(DelCommentRequestParam param) {
+        Assert.isTrue(param!=null,"参数不能为空");
+        Assert.isTrue(StringUtils.isNotBlank(param.getUserId()),"用户id不能为空");
+        Assert.isTrue(StringUtils.isNotBlank(param.getCommentId()),"评论id不能为空");
+        Assert.isTrue(StringUtils.isNotBlank(param.getResourceId()),"资源id不能为空");
+        Assert.isTrue(param.getModule()!=null,"模块不能为空");
     }
 
     private static CommentInfoDto getCommentInfoDto(DelCommentRequestParam param) {
@@ -104,6 +118,7 @@ public class CommentController {
         dto.setModule(param.getModule());
         dto.setResourceId(Long.valueOf(param.getResourceId()));
         dto.setUpdateTime(new Date());
+        dto.setIsDelete(CommentDeleteEnum.DELETED.getCode());
         return dto;
     }
 
@@ -178,6 +193,7 @@ public class CommentController {
         commentInfoDto.setOrder(param.getOrder());
         commentInfoDto.setPageNum(param.getPageNum());
         commentInfoDto.setPageSize(param.getPageSize());
+        commentInfoDto.setIsDelete(CommentDeleteEnum.NORMAL.getCode());
 
         return commentInfoDto;
     }

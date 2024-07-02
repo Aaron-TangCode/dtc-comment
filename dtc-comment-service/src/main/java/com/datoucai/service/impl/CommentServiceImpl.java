@@ -16,6 +16,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -51,8 +52,15 @@ public class CommentServiceImpl implements ICommentService {
     public int deleteComment(CommentInfoDto dto) {
         try {
             log.info("删除评论-service层-deleteComment-入参:{}", JSON.toJSONString(dto));
-            // todo 缺少参数信息校验
-            int count = commentMapper.deleteCommentById(dto.getId());
+//            int count = commentMapper.deleteCommentById(dto.getId());
+            CommentParam updateParam = new CommentParam();
+            updateParam.setId(dto.getId());
+            updateParam.setUserId(dto.getUserId());
+            updateParam.setModule(dto.getModule());
+            updateParam.setResourceId(dto.getResourceId());
+            updateParam.setIsDelete(dto.getIsDelete());
+            updateParam.setUpdateTime(new Date());
+            int count = commentMapper.updateCommentByParam(updateParam);
             log.info("删除评论-service层-deleteComment-出参:{}", count);
             return count;
         }catch (Exception e){
@@ -131,6 +139,7 @@ public class CommentServiceImpl implements ICommentService {
         commentParam.setModule(dto.getModule());
         commentParam.setResourceId(dto.getResourceId());
         commentParam.setLimit(dto.getPageSize());
+        commentParam.setIsDelete(dto.getIsDelete());
         commentParam.setOffset(buildOffset(dto.getPageNum(),dto.getPageSize()));
         if(dto.getOrder()==null){
             commentParam.setOrderBy("create_time");
