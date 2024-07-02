@@ -14,10 +14,10 @@ import com.datoucai.service.ICommentService;
 import com.datoucai.utils.BaseResultUtils;
 import com.datoucai.utils.DateUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -57,10 +57,10 @@ public class CommentController {
 
     private void checkParam(AddCommentRequestParam param) {
         Assert.isTrue(param!=null,"入参不能为空");
-        Assert.isTrue(!StringUtils.isEmpty(param.getUserId()),"用户id不能为空");
-        Assert.isTrue(!StringUtils.isEmpty(param.getResourceId()),"资源id不能为空");
+        Assert.isTrue(StringUtils.isNotBlank(param.getUserId()),"用户id不能为空");
+        Assert.isTrue(StringUtils.isNotBlank(param.getResourceId()),"资源id不能为空");
         Assert.isTrue(param.getModule()!=null,"模块不能为空");
-        Assert.isTrue(!StringUtils.isEmpty(param.getContent()),"内容不能为空");
+        Assert.isTrue(StringUtils.isNotBlank(param.getContent()),"内容不能为空");
     }
 
     private static CommentInfoDto buildCommentInfoDto(AddCommentRequestParam param) {
