@@ -18,7 +18,7 @@ public class CommentParam {
 
     private Integer status;
 
-    private Long resourceId;
+    private String resourceId;
 
     private String content;
 

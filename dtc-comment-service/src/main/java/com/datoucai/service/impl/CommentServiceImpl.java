@@ -114,7 +114,7 @@ public class CommentServiceImpl implements ICommentService {
             return commentParam;
         }
         commentParam.setModule(dto.getModule());
-        commentParam.setResourceId(Long.valueOf(dto.getResourceId()));
+        commentParam.setResourceId(dto.getResourceId());
         commentParam.setOffset(buildOffset(dto.getPageNum(),dto.getPageSize()));
         commentParam.setLimit(dto.getPageSize());
         commentParam.setIsDelete(0);

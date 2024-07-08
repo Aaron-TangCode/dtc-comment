@@ -35,16 +35,16 @@
         select * from tb_comment
         <where>
             <if test="module!=null">
-                and module=#{module}
+                and module=${module}
             </if>
             <if test="resourceId!=null">
-                and resource_id=#{resourceId}
+                and resource_id=${resourceId}
             </if>
             <if test="score!=null">
                 and score=#{score}
             </if>
             <if test="isDelete!=null">
-                and is_delete=#{isDelete}
+                and is_delete=${isDelete}
             </if>
         </where>
         <if test="orderBy!=null and orderBy!=''">
@@ -62,16 +62,16 @@
         select count(*) from tb_comment
         <where>
             <if test="module!=null">
-                and module=#{module}
+                and module=${module}
             </if>
             <if test="resourceId!=null">
-                and resource_id=#{resourceId}
+                and resource_id=${resourceId}
             </if>
             <if test="score!=null">
                 and score=#{score}
             </if>
             <if test="isDelete!=null">
-                and is_delete=#{isDelete}
+                and is_delete=${isDelete}
             </if>
         </where>
     </select>
