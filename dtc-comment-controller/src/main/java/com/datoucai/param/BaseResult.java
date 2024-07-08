@@ -27,5 +27,13 @@ public class BaseResult<T> {
      */
     private T data;
 
+    public BaseResult(Integer code, Boolean success, String msg, T data) {
+        this.code = code;
+        this.success = success;
+        this.msg = msg;
+        this.data = data;
+    }
 
+    public BaseResult() {
+    }
 }

@@ -1,50 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.datoucai.mapper.CommentMapper">
-    <insert id="insertComment">
+    <resultMap id="CommentResultMap" type="com.datoucai.entity.CommentEntity">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="module" column="module"/>
+        <result property="resourceId" column="resource_id"/>
+        <result property="content" column="content"/>
+        <result property="status" column="status"/>
+        <result property="score" column="score"/>
+        <result property="starNum" column="star_num"/>
+        <result property="isDelete" column="is_delete"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+    <insert id="addComment" parameterType="com.datoucai.entity.CommentEntity">
         insert into tb_comment(
-                               user_id,
-                               module,
-                               resource_id,
-                               status,
-                               content,
-                               star_num,
-                               score,
-                               create_time,
-                               update_time,
-                               is_delete
-                               ) values(
-                                #{userId},
-                                #{module},
-                                #{resourceId},
-                                #{status},
-                                #{content},
-                                #{starNum},
-                                #{score},
-                                #{createTime},
-                                #{updateTime},
-                                #{isDelete}
-                                               )
+            module,
+            resource_id,
+            user_id,
+            content,
+            status,
+            is_delete,
+            create_time,
+            update_time,
+            score,
+            star_num
+        )values(
+            #{module},
+        #{resourceId},
+        #{userId},
+        #{content},
+        #{status},
+        #{isDelete},
+        #{createTime},
+        #{updateTime},
+        #{score},
+        #{starNum}
+        )
     </insert>
 
     <delete id="deleteCommentById" parameterType="java.lang.Long">
         delete from tb_comment where id=#{id}
     </delete>
-
-    <select id="queryCommentByParam" resultType="com.datoucai.entity.CommentEntity" parameterType="com.datoucai.param.CommentParam">
-        select * from tb_comment
+    <update id="updateCommentByParam" parameterType="com.datoucai.entity.CommentParam">
+        update tb_comment set is_delete=#{isDelete},update_time=#{updateTime}
         <where>
             <if test="module!=null">
-                and module=${module}
+                and module=#{module}
             </if>
             <if test="resourceId!=null">
-                and resource_id=${resourceId}
+                and resource_id=#{resourceId}
+            </if>
+            <if test="userId!=null">
+                and user_id=#{userId}
+            </if>
+            <if test="id!=null">
+                and id=#{id}
+            </if>
+        </where>
+    </update>
+
+    <select id="queryCommentByParam" resultMap="CommentResultMap" parameterType="com.datoucai.entity.CommentParam">
+        select * from tb_comment
+        <where>
+            <if test="isDelete!=null">
+                and is_delete=#{isDelete}
+            </if>
+            <if test="module!=null">
+                and module=#{module}
+            </if>
+            <if test="resourceId!=null">
+                and resource_id=#{resourceId}
             </if>
             <if test="score!=null">
                 and score=#{score}
-            </if>
-            <if test="isDelete!=null">
-                and is_delete=${isDelete}
             </if>
         </where>
         <if test="orderBy!=null and orderBy!=''">
@@ -53,25 +83,22 @@
                 ${orderDirection}
             </if>
         </if>
-        <if test="limit!=null and offset!=null">
-            limit #{offset},#{limit}
-        </if>
-
     </select>
-    <select id="countCommentByParam" resultType="java.lang.Integer" parameterType="com.datoucai.param.CommentParam">
+
+    <select id="countCommentByParam" resultType="java.lang.Integer" parameterType="com.datoucai.entity.CommentParam">
         select count(*) from tb_comment
         <where>
+            <if test="isDelete!=null">
+                and is_delete=#{isDelete}
+            </if>
             <if test="module!=null">
-                and module=${module}
+                and module=#{module}
             </if>
             <if test="resourceId!=null">
-                and resource_id=${resourceId}
+                and resource_id=#{resourceId}
             </if>
             <if test="score!=null">
                 and score=#{score}
-            </if>
-            <if test="isDelete!=null">
-                and is_delete=${isDelete}
             </if>
         </where>
     </select>

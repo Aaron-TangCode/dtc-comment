@@ -23,6 +23,10 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.datoucai</groupId>
             <artifactId>dtc-comment-service</artifactId>
             <version>0.0.1-SNAPSHOT</version>

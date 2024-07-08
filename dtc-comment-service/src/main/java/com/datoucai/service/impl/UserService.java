@@ -1,6 +1,7 @@
-package com.datoucai.service;
+package com.datoucai.service.impl;
 
 import com.datoucai.mapper.UserMapper;
+import com.datoucai.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,7 +9,7 @@ import org.springframework.stereotype.Service;
  * UserService
  */
 @Service
-public class UserService implements IUserService{
+public class UserService implements IUserService {
 
     @Autowired
     private UserMapper userMapper;

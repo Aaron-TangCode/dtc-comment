@@ -24,7 +24,7 @@ public class QueryCommentRequestParam {
      */
     private String resourceId;
     /**
-     * 评论
+     * 评分
      */
     private Integer score;
     /**
