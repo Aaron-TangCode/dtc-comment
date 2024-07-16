@@ -8,8 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
  * 启动类-评论项目
  *
  */
-@SpringBootApplication
-@ComponentScan(basePackages="com.datoucai")
+@SpringBootApplication(scanBasePackages = "com.datoucai")
 public class CommentApplication
 {
     public static void main( String[] args )
