@@ -12,10 +12,7 @@ import com.datoucai.service.dto.SensitiveWordDto;
 import com.datoucai.utils.BaseResultUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -56,7 +53,7 @@ public class SensitiveWordController {
      */
     @RequestMapping(value = "/import",method = RequestMethod.POST)
     public BaseResult<Boolean> importWords(MultipartFile file){
-        log.info("批量导入敏感词-controller层-importWords-入参:{}", JSON.toJSONString(file));
+//        log.info("批量导入敏感词-controller层-importWords-入参:{}", JSON.toJSONString(file));
         try {
 
             InputStream inputStream = file.getInputStream();
