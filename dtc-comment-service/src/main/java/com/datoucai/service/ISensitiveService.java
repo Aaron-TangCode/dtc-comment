@@ -1,6 +1,9 @@
 package com.datoucai.service;
 
+import com.datoucai.entity.TbSensitiveWordsExample;
 import com.datoucai.service.dto.SensitiveWordDto;
+
+import java.util.List;
 
 /**
  * 敏感词
@@ -9,4 +12,6 @@ import com.datoucai.service.dto.SensitiveWordDto;
 public interface ISensitiveService {
 
     int insert(SensitiveWordDto sensitiveWordDto);
+
+    List<SensitiveWordDto> queryByParam(TbSensitiveWordsExample sensitiveWordsExample);
 }
