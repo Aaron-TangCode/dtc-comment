@@ -8,6 +8,7 @@ import com.datoucai.entity.CommentEntity;
 import com.datoucai.entity.CommentParam;
 import com.datoucai.mapper.CommentMapper;
 import com.datoucai.service.ICommentService;
+import com.datoucai.utils.DFAService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +29,17 @@ public class CommentServiceImpl implements ICommentService {
     @Autowired
     private CommentMapper commentMapper;
 
+    @Autowired
+    private DFAService dfaService;
     @Override
     public int addComment(CommentInfoDto dto) {
         try {
             log.info("增加评论-service层-addComment-入参:{}", JSON.toJSONString(dto));
             CommentEntity commentEntity = new CommentEntity();
             BeanUtils.copyProperties(dto,commentEntity);
+            // 敏感词检测和替换
+            String s = dfaService.checkSensitiveWords(commentEntity.getContent());
+            commentEntity.setContent(s);
             int count = commentMapper.addComment(commentEntity);
             log.info("增加评论-service层-addComment-出参:{}", count);
             return count;
