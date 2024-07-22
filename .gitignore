@@ -6,3 +6,4 @@
 **/target/
 **/build/
 *.gz
+.DS_Store
