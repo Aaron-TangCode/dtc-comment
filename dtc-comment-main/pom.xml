@@ -8,7 +8,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dtc-comment-main</artifactId>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <name>dtc-comment-main</name>
     <url>http://maven.apache.org</url>
